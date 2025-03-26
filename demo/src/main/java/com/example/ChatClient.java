@@ -94,6 +94,11 @@ public class ChatClient extends JFrame {
 
             // Le serveur demande de choisir connexion ou inscription
             String prompt = in.readLine();
+            if (prompt == null) {
+                JOptionPane.showMessageDialog(null, "Erreur : le serveur n'a pas fourni de réponse.");
+                System.exit(0);
+            }
+
             String[] options = { "Connexion", "Inscription" };
             int choice = JOptionPane.showOptionDialog(null, prompt, "Authentification",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
@@ -105,8 +110,9 @@ public class ChatClient extends JFrame {
                 out.println(username);
                 out.println(password);
                 String response = in.readLine();
-                if (!response.contains("réussie")) {
-                    JOptionPane.showMessageDialog(null, "Échec de la connexion: " + response);
+                if (response == null || !response.contains("réussie")) {
+                    JOptionPane.showMessageDialog(null,
+                            "Échec de la connexion: " + (response != null ? response : "aucune réponse du serveur."));
                     System.exit(0);
                 }
             } else { // Inscription
@@ -118,8 +124,9 @@ public class ChatClient extends JFrame {
                 out.println(password);
                 out.println(email);
                 String response = in.readLine();
-                if (!response.contains("réussie")) {
-                    JOptionPane.showMessageDialog(null, "Échec de l'inscription: " + response);
+                if (response == null || !response.contains("réussie")) {
+                    JOptionPane.showMessageDialog(null,
+                            "Échec de l'inscription: " + (response != null ? response : "aucune réponse du serveur."));
                     System.exit(0);
                 }
             }
@@ -178,7 +185,7 @@ public class ChatClient extends JFrame {
                 } else {
                     SwingUtilities.invokeLater(new Runnable() {
                         public void run() {
-                           // chatArea.append(msg.toString() + "\n");
+                            // chatArea.append(msg.toString() + "\n");
                         }
                     });
                 }
