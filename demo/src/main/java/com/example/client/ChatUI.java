@@ -38,13 +38,14 @@ public class ChatUI extends JFrame {
             if (selected.equals("Répertoire")) {
                 // Vide l'onglet Répertoire avant de recharger
                 JTextArea area = chatPanels.get("Répertoire");
-                if (area != null) area.setText("");
-        
+                if (area != null)
+                    area.setText("");
+
                 // Demande au serveur tous les messages reçus
                 ChatClient.send("/repertoire");
             }
         });
-        
+
         topPanel.add(new JLabel("Mode:"));
         topPanel.add(modeSelector);
         topPanel.add(new JLabel("Destinataire:"));
@@ -85,7 +86,8 @@ public class ChatUI extends JFrame {
 
     private void sendMessage() {
         String text = messageField.getText().trim();
-        if (text.isEmpty()) return;
+        if (text.isEmpty())
+            return;
 
         String mode = (String) modeSelector.getSelectedItem();
         String target = targetField.getText().trim();
@@ -144,3 +146,4 @@ public class ChatUI extends JFrame {
         }
     }
 }
+// push
