@@ -15,11 +15,13 @@ public class ChatClient {
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            String bienvenue = in.readLine(); // "Bienvenue ! Connexion (1) ou Inscription (2)"
-            System.out.println("Serveur dit : " + bienvenue);
+            System.out.println("Serveur : " + in.readLine()); // Bienvenue !
+            out.println("1"); // choix connexion
 
-            out.println("1"); // Choix connexion
+            System.out.println("Serveur : " + in.readLine()); // Nom d'utilisateur:
             out.println(username);
+
+            System.out.println("Serveur : " + in.readLine()); // Mot de passe:
             out.println(password);
 
             String response = in.readLine();
@@ -39,12 +41,16 @@ public class ChatClient {
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            String bienvenue = in.readLine(); // "Bienvenue ! Connexion (1) ou Inscription (2)"
-            System.out.println("Serveur dit : " + bienvenue);
-
+            System.out.println("Serveur : " + in.readLine()); // Bienvenue ! Connexion (1) ou Inscription (2)
             out.println("2"); // Choix inscription
+
+            System.out.println("Serveur : " + in.readLine()); // Nom d'utilisateur:
             out.println(username);
+
+            System.out.println("Serveur : " + in.readLine()); // Mot de passe:
             out.println(password);
+
+            System.out.println("Serveur : " + in.readLine()); // Email:
             out.println(email);
 
             String response = in.readLine();
@@ -65,4 +71,31 @@ public class ChatClient {
     public static String readMessage() throws IOException {
         return in.readLine();
     }
+    private static MessageReceiver receiver;
+
+public static void setReceiver(MessageReceiver r) {
+    receiver = r;
+}
+
+public static void startListening() {
+    new Thread(() -> {
+        try {
+            String line;
+            while ((line = in.readLine()) != null) {
+                if (receiver != null) {
+                    receiver.onMessageReceived(line);
+                }
+            }
+        } catch (IOException e) {
+            if (receiver != null) {
+                receiver.onMessageReceived("[Erreur] Déconnecté du serveur.");
+            }
+        }
+    }).start();
+}
+
+public interface MessageReceiver {
+    void onMessageReceived(String message);
+}
+
 }

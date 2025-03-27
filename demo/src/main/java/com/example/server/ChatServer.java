@@ -11,17 +11,14 @@ import java.sql.*;
 // import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import java.io.*;
-import java.net.*;
-import java.sql.*;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-
 public class ChatServer {
     private static final int PORT = 1000;
     private static Set<ClientHandler> clients = ConcurrentHashMap.newKeySet();
     private static Connection db;
-
+    public static Set<ClientHandler> getClients() {
+        return clients;
+    }
+    
     public static void main(String[] args) {
         connectDB();
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
@@ -53,8 +50,8 @@ public class ChatServer {
             check.setString(1, email);
             ResultSet rs = check.executeQuery();
             if (rs.next() && rs.getInt(1) > 0)
-              
-            return false;
+
+                return false;
 
             PreparedStatement insert = db.prepareStatement(
                     "INSERT INTO utilisateurs (nom, email, mot_de_passe, statut, created_at) VALUES (?, ?, ?, 'en ligne', NOW())");
@@ -98,4 +95,9 @@ public class ChatServer {
     public static void removeClient(ClientHandler client) {
         clients.remove(client);
     }
+
+    public static Connection getDB() {
+        return db;
+    }
+
 }
