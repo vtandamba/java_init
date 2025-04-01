@@ -12,7 +12,7 @@ import java.sql.Statement;
  * Classe d'accès à une base MySql
  * 
  * @author tanda
- * @version 4 (13 novembre 2022)
+ * @version 4 
  */
 
 public class Db_mysql {

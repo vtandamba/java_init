@@ -82,6 +82,8 @@ public class ChatUI extends JFrame {
 
         setLocationRelativeTo(null);
         setVisible(true);
+        applyStyle();
+
     }
 
     private void sendMessage() {
@@ -145,5 +147,25 @@ public class ChatUI extends JFrame {
             targetArea.append(msg + "\n");
         }
     }
+
+    private void applyStyle() {
+    Font font = new Font("Consolas", Font.PLAIN, 14);
+
+    // Appliquer au champ de message
+    messageField.setFont(font);
+
+    // Appliquer à la zone d’affichage des discussions
+    for (JTextArea area : chatPanels.values()) {
+        area.setFont(font);
+        area.setBackground(new Color(245, 245, 245));
+        area.setForeground(Color.DARK_GRAY);
+    }
+
+    // Appliquer à tous les éléments de l’interface
+    targetField.setFont(font);
+    sendButton.setFont(font);
+    modeSelector.setFont(font);
+    filterSelector.setFont(font);
 }
-// push
+
+}

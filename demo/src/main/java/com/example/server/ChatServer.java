@@ -3,12 +3,8 @@ package com.example.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-// import java.util.HashSet;
 import java.util.Set;
-// import java.io.*;
-// import java.net.*;
 import java.sql.*;
-// import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ChatServer {
@@ -22,7 +18,7 @@ public class ChatServer {
     public static void main(String[] args) {
         connectDB();
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
-            System.out.println("🟢 Serveur en ligne sur le port " + PORT);
+            System.out.println(" Serveur en ligne sur le port " + PORT);
             while (true) {
                 Socket socket = serverSocket.accept();
                 System.out.println("🔌 Client connecté : " + socket);
@@ -37,9 +33,9 @@ public class ChatServer {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             db = DriverManager.getConnection("jdbc:mysql://localhost:3306/chat_app", "root", "MeeJeediexo3*");
-            System.out.println("✅ Connexion à la base de données réussie");
+            System.out.println(" Connexion à la base de données réussie");
         } catch (Exception e) {
-            System.err.println("❌ Connexion BDD échouée");
+            System.err.println(" Connexion BDD échouée");
             e.printStackTrace();
         }
     }
